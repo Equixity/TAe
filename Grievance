@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Grievance | Union Support</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #003366;
+      --accent: #66aaff;
+      --danger: #be123c;
+      --bg: #fdfdfe;
+      --white: #ffffff;
+      --text: #334155;
+      --border: #e2e8f0;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #f1f5f9;
+      color: var(--text);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), #1e293b);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    header p {
+      opacity: 0.8;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: -40px auto 60px;
+      padding: 0 20px;
+    }
+
+    /* --- Form Card --- */
+    .form-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border);
+    }
+
+    .confidential-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff1f2;
+      color: var(--danger);
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      border: 1px solid #fecdd3;
+    }
+
+    .form-section-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-section-title::after {
+      content: "";
+      height: 1px;
+      background: var(--border);
+      flex: 1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      color: #475569;
+    }
+
+    .input-icon-wrapper {
+      position: relative;
+    }
+
+    .input-icon-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 12px 12px 42px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.2s;
+      background: #f8fafc;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      padding: 12px;
+      height: 150px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(102, 170, 255, 0.1);
+    }
+
+    /* --- Submit Button --- */
+    .btn-submit {
+      width: 100%;
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s;
+    }
+
+    .btn-submit:hover {
+      background: #9f1239;
+      box-shadow: 0 10px 15px -3px rgba(190, 18, 60, 0.2);
+    }
+
+    .help-text {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+      .form-card { padding: 25px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Formal Grievance Submission</h1>
+  <p>Your rights are protected. Your voice will be heard.</p>
+</header>
+
+<div class="container">
+  <div class="form-card">
+    <div class="confidential-tag">
+      <i class="fas fa-user-shield"></i> Strictly Confidential
+    </div>
+
+    <form>
+      <div class="form-section-title">Complainant Information</div>
+      <div class="grid">
+        <div class="form-group">
+          <label>Full Name</label>
+          <div class="input-icon-wrapper">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="John Doe" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Department</label>
+          <div class="input-icon-wrapper">
+            <i class="fas fa-building"></i>
+            <input type="text" placeholder="e.g. Operations" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section-title">Incident Details</div>
+      <div class="form-group">
+        <label>Nature of Grievance</label>
+        <textarea placeholder="Please provide a detailed description of the incident, including dates, times, and any witnesses..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">
+        Submit Formal Grievance <i class="fas fa-shield-alt"></i>
+      </button>
+
+      <div class="help-text">
+        <i class="fas fa-info-circle"></i> Once submitted, a Union Steward will contact you within 24-48 hours.
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
