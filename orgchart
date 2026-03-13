@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Organizational Chart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    /* =========
+       THEME
+    ========= */
+    :root{
+      --primary:#003366;
+      --primary-600:#0a4a94;
+      --accent:#66aaff;
+      --bg:#f4f6f9;
+      --panel:#ffffff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --ring:#9cc7ff;
+      --line: color-mix(in srgb, #0a4a94 45%, #96bfff 55%);
+      --radius:14px;
+      --trans:220ms cubic-bezier(.2,.8,.2,1);
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0c0f13;
+        --panel:#11161c;
+        --ink:#e6eef6;
+        --muted:#9aa3ad;
+        --line: color-mix(in srgb, #66aaff 65%, #1b2b44 35%);
+      }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important; transition:none !important;}
+    }
+
+    /* =========
+       BASE
+    ========= */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 800px at 15% 10%, rgba(102,170,255,.08), transparent 60%),
+        radial-gradient(900px 700px at 90% 20%, rgba(10,74,148,.10), transparent 55%),
+        var(--bg);
+      color:var(--ink);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.65;
+      animation:bodyIn .5s ease-out both;
+    }
+    @keyframes bodyIn{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:translateY(0)}}
+
+    header{
+      background:linear-gradient(135deg, var(--primary), var(--primary-600));
+      color:#fff;
+      text-align:center;
+      padding:48px 18px 40px;
+      position:relative;
+      overflow:clip;
+      box-shadow:0 18px 40px rgba(0,0,0,.18);
+      isolation:isolate;
+    }
+    header::before{
+      content:""; position:absolute; inset:0;
+      background:radial-gradient(1200px 240px at 50% 0%, rgba(255,255,255,.18), transparent 60%);
+      mix-blend-mode:screen; opacity:.5; animation:sweep 8s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes sweep{0%{transform:translateX(-20%)}50%{transform:translateX(20%)}100%{transform:translateX(-20%)}}
+    header h1{margin:0 0 8px; font-size:clamp(1.8rem, 2.6vw, 2.6rem)}
+    header p{margin:0; opacity:.95; font-weight:500}
+
+    /* NAV (matches your main site style) */
+    nav{
+      position:sticky; top:0; z-index:40;
+      background: color-mix(in srgb, #101317 85%, black 15%);
+      padding:12px 16px; display:flex; justify-content:center; gap:10px 16px;
+      backdrop-filter:saturate(140%) blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav-btn{
+      position:relative; display:inline-flex; align-items:center; gap:.55rem;
+      padding:10px 14px; color:#fff; text-decoration:none; font-weight:600;
+      letter-spacing:.2px; border-radius:10px; transition:transform var(--trans), color var(--trans);
+    }
+    .nav-btn::after{
+      content:""; position:absolute; left:12px; right:12px; bottom:6px; height:2px;
+      background:linear-gradient(90deg, transparent, var(--accent), transparent);
+      transform:scaleX(0); transform-origin:left; transition:transform var(--trans);
+    }
+    .nav-btn::before{
+      content:""; position:absolute; inset:0; padding:1px; border-radius:12px;
+      background:conic-gradient(from 180deg at 50% 50%,
+        rgba(255,255,255,.0),
+        rgba(255,255,255,.35),
+        rgba(255,255,255,.0) 60%);
+      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor; mask-composite:exclude;
+      opacity:0; transition:opacity var(--trans), transform var(--trans); pointer-events:none;
+    }
+    .nav-btn:hover,.nav-btn:focus-visible{color:#eaf2ff; transform:translateY(-1px)}
+    .nav-btn:hover::after,.nav-btn:focus-visible::after{transform:scaleX(1)}
+    .nav-btn:hover::before,.nav-btn:focus-visible::before{opacity:1; transform:rotate(3deg) scale(1.02)}
+    .nav-btn:focus-visible{outline:none; box-shadow:0 0 0 3px color-mix(in srgb, var(--ring) 70%, transparent); border-radius:12px}
+
+    .container{max-width:1200px; margin:0 auto; padding:28px 18px}
+
+    /* =========
+       TOOLBAR
+    ========= */
+    .toolbar{
+      display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;
+      margin-bottom:20px;
+    }
+    .input{
+      flex:1 1 320px; display:flex; align-items:center; gap:10px;
+      background:var(--panel); border:1px solid color-mix(in srgb, var(--panel) 92%, #9cc7ff 8%);
+      border-radius:12px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,.06);
+    }
+    .input input{
+      flex:1; border:none; outline:none; background:transparent; color:var(--ink); font-size:1rem;
+    }
+    .btn{
+      --glow:#7fb6ff;
+      display:inline-flex; align-items:center; gap:.5rem; padding:10px 14px;
+      background:linear-gradient(180deg, #e9f2ff, #d7e9ff); color:#0b1f3a;
+      border-radius:12px; font-weight:700; text-decoration:none; letter-spacing:.25px;
+      position:relative; transition:transform var(--trans), box-shadow var(--trans);
+      border:0;
+      cursor:pointer;
+    }
+    .btn::before{
+      content:""; position:absolute; inset:0; border-radius:14px; padding:1.5px;
+      background:conic-gradient(from var(--angle, 0deg),
+        rgba(127,182,255,.0) 0deg,
+        rgba(127,182,255,.6) 90deg,
+        rgba(127,182,255,.0) 180deg,
+        rgba(127,182,255,.6) 270deg,
+        rgba(127,182,255,.0) 360deg);
+      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor; mask-composite:exclude;
+      animation:spin 3s linear infinite;
+    }
+    @keyframes spin{to{--angle:360deg}}
+    .btn:hover{transform:translateY(-1px); box-shadow:0 8px 26px rgba(10,74,148,.20)}
+    .btn:focus-visible{outline:none; box-shadow:0 0 0 3px color-mix(in srgb, var(--ring) 70%, transparent), 0 8px 26px rgba(10,74,148,.20)}
+    .btn-ghost{
+      background:transparent; color:var(--ink);
+      border:1px solid color-mix(in srgb, var(--panel) 88%, #9cc7ff 12%);
+    }
+    .btn-ghost::before{display:none}
+
+    .toggle{
+      display:flex; align-items:center; gap:8px; user-select:none;
+      padding:8px 10px; border-radius:10px; background:var(--panel); border:1px solid color-mix(in srgb, var(--panel) 92%, #9cc7ff 8%);
+      box-shadow:0 8px 24px rgba(0,0,0,.06);
+      font-weight:600; color:var(--ink);
+    }
+
+    /* =========
+       ORG TREE (UL/LI with connectors)
+    ========= */
+    .org-wrap{
+      background:var(--panel);
+      border:1px solid color-mix(in srgb, var(--panel) 92%, #9cc7ff 8%);
+      border-radius:var(--radius);
+      padding:24px 16px;
+      box-shadow:0 1px 0 rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.08);
+    }
+    .org-tree, .org-tree ul{ padding-left:0; text-align:center; position:relative; }
+    .org-tree ul{ padding-top:50px }
+    .org-tree li{
+      list-style:none; display:inline-block; vertical-align:top;
+      text-align:center; position:relative; padding:1rem .65rem 0 .65rem;
+      animation:nodeIn .45s var(--trans) both;
+    }
+    @keyframes nodeIn{from{opacity:0; transform:translateY(8px) scale(.98)}to{opacity:1; transform:translateY(0) scale(1)}}
+
+    /* connector lines */
+    .org-tree li::before,
+    .org-tree li::after{
+      content:""; position:absolute; top:0; right:50%; width:50%; height:20px;
+      border-top:2px solid var(--line);
+    }
+    .org-tree li::after{ right:auto; left:50%; border-left:2px solid var(--line); }
+    .org-tree li:only-child::before,
+    .org-tree li:only-child::after{ display:none }
+    .org-tree li:only-child{ padding-top:0 }
+    .org-tree li:first-child::before{ border:none }
+    .org-tree li:last-child::after{ border:none }
+    .org-tree ul::before{
+      content:""; position:absolute; top:0; left:50%; height:20px; border-left:2px solid var(--line);
+    }
+
+    /* =========
+       NODE CARD
+    ========= */
+    .node{
+      min-width: 230px;
+      max-width: 280px;
+      background:linear-gradient(180deg, color-mix(in srgb, #fff 94%, #66aaff 6%), color-mix(in srgb, #fff 98%, #003366 2%));
+      color:var(--ink);
+      border-radius:14px; padding:16px 14px;
+      border:1px solid color-mix(in srgb, var(--panel) 90%, #9cc7ff 10%);
+      box-shadow:0 1px 0 rgba(0,0,0,.04), 0 16px 36px rgba(0,0,0,.08);
+      position:relative; overflow:clip; isolation:isolate;
+      transition:transform var(--trans), box-shadow var(--trans), border-color var(--trans);
+    }
+    .node::before{
+      content:""; position:absolute; inset:-1px; border-radius:16px;
+      background:
+        linear-gradient(180deg, rgba(102,170,255,.14), transparent 30%),
+        linear-gradient(0deg, rgba(255,255,255,.06), transparent 40%);
+      pointer-events:none;
+    }
+    .node:hover{transform:translateY(-2px); box-shadow:0 18px 44px rgba(0,0,0,.12); border-color:color-mix(in srgb, var(--panel) 82%, #9cc7ff 18%)}
+    .role{ display:inline-flex; align-items:center; gap:.5rem; font-weight:800; color:var(--primary); margin-bottom:6px; letter-spacing:.2px }
+    .name{ font-weight:700; color:color-mix(in srgb, var(--ink) 88%, #003366 12%); margin-bottom:4px }
+    .meta{ font-size:.95rem; color:var(--muted) }
+    .badge{
+      display:inline-block; font-size:.75rem; color:#0b1f3a;
+      background:#e7f0ff; border:1px solid #cfe3ff;
+      border-radius:999px; padding:.18rem .5rem; margin-top:8px;
+    }
+    .count{ margin-left:.35rem; font-weight:800; color:color-mix(in srgb, var(--primary) 80%, #0b1f3a 20%) }
+
+    /* details inside nodes */
+    details{
+      margin-top:10px; text-align:left; background:rgba(102,170,255,.08);
+      border:1px dashed color-mix(in srgb, #66aaff 40%, transparent);
+      border-radius:10px; padding:10px 10px;
+    }
+    summary{cursor:pointer; font-weight:800; color:var(--primary)}
+    .people{margin:8px 0 0 0; padding-left:18px}
+    .people li{list-style:disc; margin:.25rem 0; text-align:left}
+
+    /* helper classes */
+    .group .role{ color: color-mix(in srgb, var(--primary) 90%, #66aaff 10%) }
+    .match{ outline:3px solid color-mix(in srgb, #7fb6ff 70%, transparent); outline-offset:2px }
+    .hidden{ display:none !important }
+
+    /* Core-only mode: show only vital roles (no individual directors/members lists) */
+    body.core-only details{ display:none }
+    body.core-only .tier-3.director-node{ display:none } /* hide individual director cards */
+
+    /* Responsive */
+    @media (max-width: 780px){
+      .node{min-width: 220px}
+      .org-tree li{padding:.75rem .4rem 0 .4rem}
+    }
+    @media (max-width: 560px){
+      .org-tree li::before,.org-tree li::after,.org-tree ul::before{display:none}
+      .org-tree ul{padding-top:18px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Organizational Chart</h1>
+    <p>National Workers Labor Union — Core Roles: President · Board of Directors · Secretary · Stewards · Members</p>
+  </header>
+
+  <!-- Nav aligned with your main site -->
+  <nav aria-label="Primary">
+    <a class="nav-btn" href="index.html">Home</a>
+    <a class="nav-btn" href="orgchart.html">Organizational Chart</a>
+    <a class="nav-btn" href="cba.html">CBA Laws</a>
+    <a class="nav-btn" href="loan.html">Loan System</a>
+    <a class="nav-btn" href="gallery.html">Gallery</a>
+    <a class="nav-btn" href="reports.html">Reports</a>
+    <a class="nav-btn" href="grievance.html">Grievances</a>
+  </nav>
+
+  <main class="container">
+    <!-- Toolbar -->
+    <div class="toolbar" role="region" aria-label="Org chart tools">
+      <label class="toggle">
+        <input type="checkbox" id="coreOnly" />
+        Show core roles only
+      </label>
+      <div class="input" role="search">
+        🔎
+        <input id="filter" type="search" placeholder="Search by name, role, or committee…" aria-label="Search organization" />
+      </div>
+      <div class="actions" style="display:flex; gap:10px;">
+        <button class="btn-ghost btn" id="expandAll" type="button">Expand all</button>
+        <button class="btn-ghost btn" id="collapseAll" type="button">Collapse all</button>
+      </div>
+    </div>
+
+    <!-- ORG TREE -->
+    <div class="org-wrap">
+      <div class="org-tree" id="orgTree">
+        <ul>
+          <!-- Tier 1: PRESIDENT -->
+          <li class="tier-1">
+            <div class="node" data-role="President" data-name="Juan Dela Cruz">
+              <div class="role">President</div>
+              <div class="name">Juan Dela Cruz</div>
+              <div class="meta">Leadership, strategy & representation</div>
+              <span class="badge">Executive Office</span>
+              <details>
+                <summary>Executive staff</summary>
+                <ul class="people">
+                  <li>Chief of Staff — <strong>Elena Ramos</strong></li>
+                  <li>Policy Advisor — <strong>Matthew Ong</strong></li>
+                </ul>
+              </details>
+            </div>
+
+            <ul>
+              <!-- Tier 2: BOARD OF DIRECTORS (Group) -->
+              <li class="tier-2">
+                <div class="node group" data-role="Board of Directors" data-name="Board">
+                  <div class="role">Board of Directors <span class="count">(7)</span></div>
+                  <div class="meta">Governance, oversight & policy direction</div>
+                </div>
+                <!-- Tier 3: Individual Directors -->
+                <ul>
+                  <li class="tier-3 director-node">
+                    <div class="node" data-role="Director (Chair)" data-name="Maria Santos">
+                      <div class="role">Director — Chair</div>
+                      <div class="name">Maria Santos</div>
+                      <div class="meta">Board leadership & coordination</div>
+                    </div>
+                  </li>
+                  <li class="tier-3 director-node">
+                    <div class="node" data-role="Director (Finance)" data-name="Ana Lopez">
+                      <div class="role">Director — Finance</div>
+                      <div class="name">Ana Lopez</div>
+                      <div class="meta">Budget & audit oversight</div>
+                    </div>
+                  </li>
+                  <li class="tier-3 director-node">
+                    <div class="node" data-role="Director (Membership)" data-name="Carlos Mendoza">
+                      <div class="role">Director — Membership</div>
+                      <div class="name">Carlos Mendoza</div>
+                      <div class="meta">Recruitment & retention strategy</div>
+                    </div>
+                  </li>
+                  <li class="tier-3 director-node">
+                    <div class="node" data-role="Director (Communications)" data-name="Lara Aquino">
+                      <div class="role">Director — Communications</div>
+                      <div class="name">Lara Aquino</div>
+                      <div class="meta">Media, campaigns & outreach</div>
+                    </div>
+                  </li>
+                  <li class="tier-3 director-node">
+                    <div class="node" data-role="Director (Legal)" data-name="Atty. Ricardo Cruz">
+                      <div class="role">Director — Legal</div>
+                      <div class="name">Atty. Ricardo Cruz</div>
+                      <div class="meta">CBA counsel & compliance</div>
+                    </div>
+                  </li>
+                  <li class="tier-3 director-node">
+                    <div class="node" data-role="Director (Welfare)" data-name="Sofia Delgado">
+                      <div class="role">Director — Welfare & Benefits</div>
+                      <div class="name">Sofia Delgado</div>
+                      <div class="meta">Assistance & claims programs</div>
+                    </div>
+                  </li>
+                  <li class="tier-3 director-node">
+                    <div class="node" data-role="Director (IT)" data-name="Michael Go">
+                      <div class="role">Director — IT & Systems</div>
+                      <div class="name">Michael Go</div>
+                      <div class="meta">Portal, data & security</div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Tier 2: SECRETARY -->
+              <li class="tier-2">
+                <div class="node" data-role="Secretary" data-name="Pedro Reyes">
+                  <div class="role">Secretary</div>
+                  <div class="name">Pedro Reyes</div>
+                  <div class="meta">Records, compliance & documentation</div>
+                  <span class="badge">Secretariat</span>
+                </div>
+
+                <ul>
+                  <!-- Tier 3: STEWARDS (Group) -->
+                  <li class="tier-3">
+                    <div class="node group" data-role="Stewards" data-name="Stewards">
+                      <div class="role">Stewards <span class="count">(10)</span></div>
+                      <div class="meta">Workplace representation & dispute handling</div>
+                      <details>
+                        <summary>View stewards</summary>
+                        <ul class="people">
+                          <li><strong>Allan Chua</strong></li>
+                          <li><strong>Erika Ramos</strong></li>
+                          <li><strong>Liza Ramos</strong></li>
+                          <li><strong>Noel Garcia</strong></li>
+                          <li><strong>Dina Cruz</strong></li>
+                          <li><strong>Jose Manalo</strong></li>
+                          <li><strong>Kim Rivera</strong></li>
+                          <li><strong>Arman Bautista</strong></li>
+                          <li><strong>Ian Velasco</strong></li>
+                          <li><strong>Rhea Navarro</strong></li>
+                        </ul>
+                      </details>
+                    </div>
+                  </li>
+
+                  <!-- Tier 3: MEMBERS (Group) -->
+                  <li class="tier-3">
+                    <div class="node group" data-role="Members" data-name="General Membership">
+                      <div class="role">Members <span class="count">(120+)</span></div>
+                      <div class="meta">Active dues-paying general membership</div>
+                      <details>
+                        <summary>Sample member list</summary>
+                        <ul class="people">
+                          <li><strong>Paolo Reyes</strong></li>
+                          <li><strong>Mira Tan</strong></li>
+                          <li><strong>Tristan Uy</strong></li>
+                          <li><strong>Nico Duran</strong></li>
+                          <li><strong>Joyce Abad</strong></li>
+                          <li><strong>Belle Torres</strong></li>
+                          <li><strong>Ivan Roque</strong></li>
+                          <li><strong>Romy de la Peña</strong></li>
+                          <li>…and 100+ more</li>
+                        </ul>
+                      </details>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer style="text-align:center; padding:18px; color:#fff; background:linear-gradient(0deg, var(--primary), var(--primary-600)); margin-top:24px; border-top:1px solid rgba(255,255,255,.12);">
+    © 2026 Labor Union Organization
+  </footer>
+
+  <!-- Minimal JS: filter + expand/collapse + core roles toggle -->
+  <script>
+    (function(){
+      const filter = document.getElementById('filter');
+      const tree = document.getElementById('orgTree');
+      const nodes = [...tree.querySelectorAll('.node')];
+      const coreOnly = document.getElementById('coreOnly');
+      const expandAll = document.getElementById('expandAll');
+      const collapseAll = document.getElementById('collapseAll');
+
+      function norm(s){ return (s||"").toLowerCase(); }
+      function match(node, q){ if(!q) return true; return norm(node.innerText).includes(q); }
+      function setHidden(el, hidden){ el.classList.toggle('hidden', !!hidden); }
+      function clearMatch(){
+        nodes.forEach(n => n.classList.remove('match'));
+        tree.querySelectorAll('li').forEach(li => li.classList.remove('hidden'));
+      }
+      function showAncestors(li){
+        let p = li.parentElement;
+        while(p && p !== tree){
+          if(p.tagName === 'UL'){ p = p.parentElement; continue; }
+          if(p.tagName === 'LI'){ p.classList.remove('hidden'); }
+          p = p.parentElement;
+        }
+      }
+
+      filter.addEventListener('input', ()=>{
+        const q = norm(filter.value.trim());
+        if(!q){ clearMatch(); return; }
+        tree.querySelectorAll('li').forEach(li => setHidden(li, true));
+        nodes.forEach(n => n.classList.remove('match'));
+        nodes.forEach(node=>{
+          const li = node.closest('li');
+          if(match(node,q)){
+            node.classList.add('match');
+            li.classList.remove('hidden');
+            showAncestors(li);
+          }
+        });
+      });
+
+      coreOnly.addEventListener('change', (e)=>{
+        document.body.classList.toggle('core-only', e.target.checked);
+      });
+
+      expandAll.addEventListener('click', ()=>{
+        tree.querySelectorAll('details').forEach(d => d.open = true);
+      });
+      collapseAll.addEventListener('click', ()=>{
+        tree.querySelectorAll('details').forEach(d => d.open = false);
+      });
+    })();
+  </script>
+</body>
+</html>
