@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Union Reports | Transparency Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #003366;
+      --accent: #66aaff;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), #004080);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+
+    header p {
+      opacity: 0.8;
+      margin-top: 10px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: -40px auto 50px;
+      padding: 0 20px;
+    }
+
+    /* --- Table Card --- */
+    .report-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden; /* Ensures corners are rounded */
+      border: 1px solid #e2e8f0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: var(--primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      padding: 16px 24px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    td {
+      padding: 18px 24px;
+      border-bottom: 1px solid #f1f5f9;
+      transition: background 0.2s;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    /* --- Report Styling --- */
+    .report-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .report-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(102, 170, 255, 0.1);
+      color: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .year-badge {
+      background: #e2e8f0;
+      color: #475569;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* --- Download Button --- */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-download:hover {
+      background-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 170, 255, 0.3);
+    }
+
+    .btn-download i {
+      font-size: 0.9rem;
+    }
+
+    /* --- Search/Filter bar (Visual only for now) --- */
+    .table-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      padding: 10px 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      width: 250px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .table-controls { flex-direction: column; gap: 10px; align-items: flex-start; }
+      th:nth-child(2), td:nth-child(2) { display: none; } /* Hide year on small screens */
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Union Transparency Portal</h1>
+  <p>Official reports, audits, and membership data</p>
+</header>
+
+<div class="container">
+  
+  <div class="table-controls">
+    <input type="text" class="search-input" placeholder="Filter reports...">
+    <div style="font-size: 0.85rem; color: var(--muted);">Showing 2 Documents</div>
+  </div>
+
+  <div class="report-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Report Name</th>
+          <th>Fiscal Year</th>
+          <th style="text-align: right;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="report-name">
+              <div class="report-icon"><i class="fas fa-chart-line"></i></div>
+              Annual Financial Statement
+            </div>
+          </td>
+          <td><span class="year-badge">2025</span></td>
+          <td style="text-align: right;">
+            <a href="#" class="btn-download">
+              <i class="fas fa-file-download"></i> Download
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="report-name">
+              <div class="report-icon"><i class="fas fa-users"></i></div>
+              Membership Census Report
+            </div>
+          </td>
+          <td><span class="year-badge">2025</span></td>
+          <td style="text-align: right;">
+            <a href="#" class="btn-download">
+              <i class="fas fa-file-download"></i> Download
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top: 30px; text-align: center; color: var(--muted); font-size: 0.9rem;">
+    <p><i class="fas fa-info-circle"></i> Reports are published quarterly. For archived data before 2024, please contact the Secretariat.</p>
+  </div>
+</div>
+
+</body>
+</html>
